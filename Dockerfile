@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM postgres:alpine
+FROM postgres:11-alpine
 
 RUN set -ex \
     \
@@ -22,11 +22,11 @@ RUN set -ex \
 RUN echo -e "CREATE EXTENSION IF NOT EXISTS pg_trgm;\n\
 CREATE EXTENSION IF NOT EXISTS zhparser;\n\
 DO\n\
-$$BEGIN\n\
+\$\$BEGIN\n\
     CREATE TEXT SEARCH CONFIGURATION chinese_zh (PARSER = zhparser);\n\
     ALTER TEXT SEARCH CONFIGURATION chinese_zh ADD MAPPING FOR n,v,a,i,e,l,t WITH simple;\n\
 EXCEPTION\n\
    WHEN unique_violation THEN\n\
       NULL;  -- ignore error\n\
-END;$$;\n\
+END;\$\$;\n\
 " > /docker-entrypoint-initdb.d/init-zhparser.sql
