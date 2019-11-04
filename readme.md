@@ -1,5 +1,7 @@
 A source repo of Postgres Chinese full-test search docker image, based on zhparser.
 
+Fork from: https://github.com/chen-xin/docker_zhparser, and upgrade to new version.
+
 Supported tags and respective Dockerfile links
 ===============================================
 

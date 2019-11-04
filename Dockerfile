@@ -5,51 +5,34 @@
 
 FROM postgres
 
-ARG CN_MIRROR=0
-
-# Uncomment the following command if you have bad internet connection
-# and first download the files into data directory
-# COPY data/pg_jieba.zip /pg_jieba.zip
-
-RUN if [ $CN_MIRROR = 1 ] ; then DEBIAN_VERSION=$(dpkg --status tzdata|grep Provides|cut -f2 -d'-') \
-&& echo "using mirrors for $DEBIAN_VERSION" \
-&& echo "deb http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION main non-free contrib \n\
-deb http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION-updates main non-free contrib \n\
-deb http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION-backports main non-free contrib \n\
-deb http://ftp.cn.debian.org/debian-security/ $DEBIAN_VERSION/updates main non-free contrib \n\
-deb-src http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION main non-free contrib \n\
-deb-src http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION-updates main non-free contrib \n\
-deb-src http://ftp.cn.debian.org/debian/ $DEBIAN_VERSION-backports main non-free contrib \n\
-deb-src http://ftp.cn.debian.org/debian-security/ $DEBIAN_VERSION/updates main non-free contrib" > /etc/apt/sources.list; else echo "No mirror"; fi
-
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
       gcc \
       make \
-      libc-dev \
       postgresql-server-dev-$PG_MAJOR \
-      wget \
-      unzip \
-      ca-certificates \
-      openssl \
-	&& rm -rf /var/lib/apt/lists/* \
-  && wget -q -O - "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
-  && wget -O zhparser.zip "https://github.com/amutu/zhparser/archive/master.zip" \
-  && unzip zhparser.zip \
+      libc-dev \
+      curl \
+  && rm -rf /var/lib/apt/lists/* \
+  && curl -sSkLf "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
+  && curl -sSkLf "https://github.com/amutu/zhparser/archive/master.tar.gz" | tar xzf - \
   && cd scws-1.2.3 \
   && ./configure \
-  && make install \
+  && make -j$(nproc) install V=0 \
   && cd /zhparser-master \
-  && SCWS_HOME=/usr/local make && make install \
-  # pg_trgm is recommend but not required.
-  && echo "CREATE EXTENSION pg_trgm; \n\
-CREATE EXTENSION zhparser; \n\
-CREATE TEXT SEARCH CONFIGURATION chinese_zh (PARSER = zhparser); \n\
-ALTER TEXT SEARCH CONFIGURATION chinese_zh ADD MAPPING FOR n,v,a,i,e,l,t WITH simple;" \
-> /docker-entrypoint-initdb.d/init-zhparser.sql \
-  && apt-get purge -y gcc make libc-dev postgresql-server-dev-$PG_MAJOR \
-  && apt-get autoremove -y \
-  && rm -rf \
-    /zhparser-master \
-    /zhparser.zip \
-    /scws-1.2.3
+  && make -j$(nproc) install \
+  && apt-get purge -y gcc make libc-dev postgresql-server-dev-$PG_MAJOR curl \
+  && apt-get autoremove --purge -y \
+  && rm -rf /zhparser-master /scws-1.2.3
+
+# pg_trgm is recommend but not required.
+RUN echo -e "CREATE EXTENSION IF NOT EXISTS pg_trgm;\n\
+CREATE EXTENSION IF NOT EXISTS zhparser;\n\
+DO\n\
+\$\$BEGIN\n\
+    CREATE TEXT SEARCH CONFIGURATION chinese_zh (PARSER = zhparser);\n\
+    ALTER TEXT SEARCH CONFIGURATION chinese_zh ADD MAPPING FOR n,v,a,i,e,l,t WITH simple;\n\
+EXCEPTION\n\
+   WHEN unique_violation THEN\n\
+      NULL;  -- ignore error\n\
+END;\$\$;\n\
+" > /docker-entrypoint-initdb.d/init-zhparser.sql
