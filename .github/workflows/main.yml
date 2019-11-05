@@ -1,0 +1,22 @@
+name: Daily update docker images
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  check_and_update:
+    name: Check and update docker images
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        BRANCH_NAME="$(echo "${GITHUB_REF}" | sed 's@refs/heads/@@')"
+        VER="${BRANCH_NAME}"
+        [ "${VER}" = 'master' ] && VER=latest
+        UPSTREAM_VER="$(docker run --rm postgres:${VER} sh -c 'echo ${PG_VERSION}')"
+        DOWNSTREAM_VER="$(docker run --rm abcfy2/zhparser:${VER} sh -c 'echo ${PG_VERSION}')"
+        [ "${UPSTREAM_VER}" != "${DOWNSTREAM_VER}" ] && \
+          curl -sSkLf -d "{\"source_type\": \"Branch\", \"source_name\": "${BRANCH_NAME}"}" -H 'Content-Type: application/json' "${DOCKER_HUB_BUILD_TRIGGER_URL}" || \
+          true
+      env:
+        DOCKER_HUB_BUILD_TRIGGER_URL: '${{ secrets.DOCKER_HUB_BUILD_TRIGGER_URL }}'
