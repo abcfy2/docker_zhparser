@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM postgres:alpine
+FROM postgres:12-alpine
 
 RUN set -ex \
     \
