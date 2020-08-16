@@ -7,7 +7,7 @@ RUN set -ex \
     && wget -O- "https://github.com/amutu/zhparser/archive/master.tar.gz" | tar xzf - \
     \
     && apk add --no-cache --virtual .build-deps \
-        llvm9 \
+        llvm \
         file \
         clang \
         gcc \
