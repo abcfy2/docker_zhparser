@@ -2,7 +2,7 @@ name: Daily update docker images
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * 1"
 
 jobs:
   check_and_update:
