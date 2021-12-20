@@ -1,3 +1,8 @@
+![Docker Build (Debian)](https://github.com/abcfy2/docker_zhparser/actions/workflows/docker_build_debian.yml/badge.svg)
+![Docker Build (Alpine)](https://github.com/abcfy2/docker_zhparser/actions/workflows/docker_build_alpine.yml/badge.svg)
+[![Docker Pulls](https://img.shields.io/docker/pulls/abcfy2/zhparser)](https://hub.docker.com/r/abcfy2/zhparser)
+[![Latest Tag](https://img.shields.io/docker/v/abcfy2/zhparser)](https://hub.docker.com/r/abcfy2/zhparser/tags)
+
 A source repo of Postgres Chinese full-test search docker image, based on zhparser.
 
 Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new version.
