@@ -2,8 +2,13 @@ name: Docker Build (Alpine)
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "Dockerfile.alpine"
+      - ".github/workflows/docker_build_alpine.yml"
+  schedule:
+    - cron: "0 0 * * 6"
 
 env:
   DOCKER_REPOSITORY: abcfy2/zhparser
@@ -22,6 +27,21 @@ jobs:
           - 13-alpine
           - 14-alpine
     steps:
+      - name: Determine if push is needed
+        run: |
+          echo "GITHUB_EVENT_NAME = ${GITHUB_EVENT_NAME}"
+          PUSH=true
+          if [ "${GITHUB_EVENT_NAME}" = "schedule" ]; then
+            UPSTREAM_VER="$(docker run --rm --pull always postgres:${{ matrix.pg_tag }} sh -c 'echo ${PG_VERSION}' 2>/dev/null)"
+            DOWNSTREAM_VER="$(docker run --rm --pull always abcfy2/zhparser:${{ matrix.pg_tag }} sh -c 'echo ${PG_VERSION}' 2>/dev/null)"
+            echo "upstream verion: ${UPSTREAM_VER}"
+            echo "downstream version: ${DOWNSTREAM_VER}"
+            if [ "${UPSTREAM_VER}" = "${DOWNSTREAM_VER}" ]; then
+              PUSH=false
+            fi
+          fi
+          echo "PUSH = ${PUSH}"
+          echo "PUSH=${PUSH}" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -32,7 +52,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: true
+          push: ${{ env.PUSH }}
           file: Dockerfile.alpine
           build-args: |
             PG_TAG=${{ matrix.pg_tag }}
