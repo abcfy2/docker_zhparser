@@ -4,7 +4,7 @@
 # run interactive: winpty docker run -it --name PostgreSQLcnFt -p 5432:5432 chenxinaz/zhparser --entrypoint bash chenxinaz/zhparser
 ARG PG_TAG=latest
 FROM postgres:${PG_TAG}
-LABEL org.opencontainers.image.authors="Feng Yu<abcfy2@163.com>"
+LABEL maintainer="Feng Yu<abcfy2@163.com>"
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
