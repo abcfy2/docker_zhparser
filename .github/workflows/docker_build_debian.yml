@@ -33,7 +33,7 @@ jobs:
           PUSH=true
           if [ "${GITHUB_EVENT_NAME}" = "schedule" ]; then
             UPSTREAM_VER="$(docker run --rm --pull always postgres:${{ matrix.pg_tag }} sh -c 'echo ${PG_VERSION}' 2>/dev/null)"
-            DOWNSTREAM_VER="$(docker run --rm --pull always abcfy2/zhparser:${{ matrix.pg_tag }} sh -c 'echo ${PG_VERSION}' 2>/dev/null)"
+            DOWNSTREAM_VER="$(docker run --rm --pull always ${DOCKER_REPOSITORY}:${{ matrix.pg_tag }} sh -c 'echo ${PG_VERSION}' 2>/dev/null)"
             echo "upstream verion: ${UPSTREAM_VER}"
             echo "downstream version: ${DOWNSTREAM_VER}"
             if [ "${UPSTREAM_VER}" = "${DOWNSTREAM_VER}" ]; then
@@ -52,7 +52,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          push: true
+          push: ${{ env.PUSH }}
+          pull: true
           file: Dockerfile.debian
           build-args: |
             PG_TAG=${{ matrix.pg_tag }}
