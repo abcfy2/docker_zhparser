@@ -58,9 +58,6 @@ jobs:
         run: |
           PLATFORMS="$(docker buildx imagetools inspect postgres:${PG_TAG} --raw | jq -r '[.manifests[].platform | {os,architecture,variant} | del(.[] | nulls) | join("/")] | join(",")')"
           echo "postgres:${PG_TAG} support platforms: ${PLATFORMS}"
-
-          # postgresql official repo only contains binaries for amd64, arm64, i386, ppc64el.
-          PLATFORMS="$(echo "${PLATFORMS}" | tr ',' '\n' | grep -E '(amd64|arm64|386|ppc64)' | paste -sd ',')"
           echo "PLATFORMS=${PLATFORMS}" >> $GITHUB_ENV
         env:
           PG_TAG: ${{ matrix.pg_tag }}
@@ -75,3 +72,5 @@ jobs:
             PG_TAG=${{ matrix.pg_tag }}
           platforms: ${{ env.PLATFORMS }}
           tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

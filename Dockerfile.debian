@@ -6,15 +6,39 @@ ARG PG_TAG=latest
 FROM postgres:${PG_TAG}
 LABEL maintainer="Feng Yu<abcfy2@163.com>"
 
+# RUN sed -i 's/deb.debian.org/mirror.sjtu.edu.cn/;s/security.debian.org/mirror.sjtu.edu.cn/' /etc/apt/sources.list \
+#   && sed -i 's@apt.postgresql.org/pub@repo.huaweicloud.com/postgresql@' /etc/apt/sources.list.d/pgdg.list
+
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
       gcc \
       make \
-      postgresql-server-dev-$PG_MAJOR=$PG_VERSION \
       libc-dev \
       curl \
       bzip2 \
-  && rm -rf /var/lib/apt/lists/* \
+  &&  if grep -q "deb-src" /etc/apt/sources.list.d/pgdg.list > /dev/null; then \
+        savedAptMark="$(apt-mark showmanual)"; \
+        tempDir="$(mktemp -d)"; \
+        cd "$tempDir"; \
+        apt-get install -y --no-install-recommends dpkg-dev; \
+        echo "deb [ trusted=yes ] file://$tempDir ./" > /etc/apt/sources.list.d/temp.list; \
+        _update_repo() { \
+          dpkg-scanpackages . > Packages; \
+          apt-get -o Acquire::GzipIndexes=false update; \
+        }; \
+        _update_repo; \
+        nproc="$(nproc)"; \
+        export DEB_BUILD_OPTIONS="nocheck parallel=$nproc"; \
+        apt-get build-dep -y "postgresql-server-dev-$PG_MAJOR=$PG_VERSION"; \
+        apt-get -qq source --compile "postgresql-server-dev-$PG_MAJOR=$PG_VERSION"; \
+        apt-mark showmanual | xargs apt-mark auto > /dev/null; \
+        apt-mark manual $savedAptMark; \
+        ls -lAFh; \
+        _update_repo; \
+        grep '^Package: ' Packages; \
+        cd /; \
+      fi \
+  && apt-get install -y postgresql-server-dev-$PG_MAJOR=$PG_VERSION \
   && curl -sSkLf "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
   && curl -sSkLf "https://github.com/amutu/zhparser/archive/master.tar.gz" | tar xzf - \
   && cd scws-1.2.3 \
@@ -24,7 +48,11 @@ RUN apt-get update \
   && make -j$(nproc) install \
   && apt-get purge -y gcc make libc-dev postgresql-server-dev-$PG_MAJOR=$PG_VERSION curl bzip2 \
   && apt-get autoremove --purge -y \
-  && rm -rf /zhparser-master /scws-1.2.3
+  && rm -rf /zhparser-master /scws-1.2.3 /var/lib/apt/lists/* \
+  && 	if [ -n "$tempDir" ]; then \
+        apt-get purge -y --auto-remove; \
+        rm -rf "$tempDir" /etc/apt/sources.list.d/temp.list; \
+      fi
 
 # pg_trgm is recommend but not required.
 RUN echo -e "CREATE EXTENSION IF NOT EXISTS pg_trgm;\n\

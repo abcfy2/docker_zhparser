@@ -72,3 +72,5 @@ jobs:
             PG_TAG=${{ matrix.pg_tag }}
           platforms: ${{ env.PLATFORMS }}
           tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
