@@ -10,7 +10,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends \
       gcc \
       make \
-      postgresql-server-dev-$PG_MAJOR \
+      postgresql-server-dev-$PG_MAJOR=$PG_VERSION \
       libc-dev \
       curl \
       bzip2 \
@@ -22,7 +22,7 @@ RUN apt-get update \
   && make -j$(nproc) install V=0 \
   && cd /zhparser-master \
   && make -j$(nproc) install \
-  && apt-get purge -y gcc make libc-dev postgresql-server-dev-$PG_MAJOR curl bzip2 \
+  && apt-get purge -y gcc make libc-dev postgresql-server-dev-$PG_MAJOR=$PG_VERSION curl bzip2 \
   && apt-get autoremove --purge -y \
   && rm -rf /zhparser-master /scws-1.2.3
 
