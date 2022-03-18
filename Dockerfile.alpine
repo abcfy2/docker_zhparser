@@ -3,10 +3,19 @@ ARG PG_TAG=alpine
 FROM postgres:${PG_TAG}
 LABEL maintainer="Feng Yu<abcfy2@163.com>"
 
+ARG USE_CHINA_MIRROR=0
+RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
+        sed -i 's/dl-cdn.alpinelinux.org/mirrors.sjtug.sjtu.edu.cn/' /etc/apk/repositories; \
+    fi
+
 RUN set -ex \
     \
     && wget -qO- "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
-    && wget -O- "https://github.com/amutu/zhparser/archive/master.tar.gz" | tar xzf - \
+    && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
+    &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
+            ZHPARSER_URL="https://ghproxy.com/${ZHPARSER_URL}"; \
+        fi \
+    && wget -O- "${ZHPARSER_URL}" | tar xzf - \
     \
     && apk add --no-cache --virtual .build-deps \
         llvm \
