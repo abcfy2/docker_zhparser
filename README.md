@@ -15,14 +15,12 @@ Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new ver
 - [12](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [11](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [10](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
-- [9.6](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [14-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [13-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [12-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [11-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [10-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
-- [9.6-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 
 The numbers above are postgres docker image versions.
 

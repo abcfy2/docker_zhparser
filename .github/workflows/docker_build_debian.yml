@@ -21,7 +21,6 @@ jobs:
       matrix:
         pg_tag:
           - latest
-          - 9.6
           - 10
           - 11
           - 12
