@@ -21,8 +21,8 @@ jobs:
       matrix:
         pg_tag:
           - latest
-          - 10
-          - 11
+          - 10-bullseye
+          - 11-bullseye
           - 12
           - 13
           - 14
