@@ -18,9 +18,9 @@ RUN set -ex \
     && wget -O- "${ZHPARSER_URL}" | tar xzf - \
     \
     && apk add --no-cache --virtual .build-deps \
-        llvm \
+        llvm15 \
         file \
-        clang \
+        clang15 \
         gcc \
         libc-dev \
         make \
