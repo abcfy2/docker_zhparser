@@ -62,7 +62,7 @@ jobs:
           PG_TAG: ${{ matrix.pg_tag }}
       - name: Build and push
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: ${{ env.PUSH }}
           pull: true

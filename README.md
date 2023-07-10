@@ -15,6 +15,7 @@ Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new ver
 - [13](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [12](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [11-bullseye](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
+- [11-bookworm](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [15-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [14-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
