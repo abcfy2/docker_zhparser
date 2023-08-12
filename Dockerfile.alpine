@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 ARG PG_TAG=alpine
 FROM postgres:${PG_TAG}
-LABEL maintainer="Feng Yu<abcfy2@163.com>"
+LABEL org.opencontainers.image.authors="Feng Yu<abcfy2@163.com>"
 
 ARG USE_CHINA_MIRROR=0
 RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
