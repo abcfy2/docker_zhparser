@@ -10,6 +10,7 @@ Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new ver
 # Supported tags and respective Dockerfile links
 
 - [latest](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
+- [16](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [15](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [14](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [13](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
@@ -17,6 +18,7 @@ Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new ver
 - [11-bullseye](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [11-bookworm](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
+- [16-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [15-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [14-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [13-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
