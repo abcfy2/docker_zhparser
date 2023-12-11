@@ -13,7 +13,7 @@ RUN set -ex \
     && wget -qO- "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
     && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
     &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
-            ZHPARSER_URL="https://ghproxy.com/${ZHPARSER_URL}"; \
+            ZHPARSER_URL="https://mirror.ghproxy.com/${ZHPARSER_URL}"; \
         fi \
     && wget -O- "${ZHPARSER_URL}" | tar xzf - \
     \

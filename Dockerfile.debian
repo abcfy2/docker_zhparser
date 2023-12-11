@@ -8,7 +8,11 @@ LABEL org.opencontainers.image.authors="Feng Yu<abcfy2@163.com>"
 
 ARG USE_CHINA_MIRROR=0
 RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
-    sed -i 's/deb.debian.org/mirror.sjtu.edu.cn/;s/security.debian.org/mirror.sjtu.edu.cn/' /etc/apt/sources.list /etc/apt/sources.list.d/pgdg.list \
+      for f in /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources; do \
+        if [ -f "${f}" ]; then \
+          sed -i 's/deb.debian.org/mirror.sjtu.edu.cn/;s/security.debian.org/mirror.sjtu.edu.cn/' "${f}"; \
+        fi \
+      done \
     && sed -i 's@apt.postgresql.org/pub@repo.huaweicloud.com/postgresql@' /etc/apt/sources.list.d/pgdg.list; \
     fi
 
@@ -30,7 +34,7 @@ RUN apt-get update \
   && curl -sSkLf "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
   && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
   &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
-        ZHPARSER_URL="https://ghproxy.com/${ZHPARSER_URL}"; \
+        ZHPARSER_URL="https://mirror.ghproxy.com/${ZHPARSER_URL}"; \
       fi \
   && curl -sSkLf "${ZHPARSER_URL}" | tar xzf - \
   && cd scws-1.2.3 \
@@ -54,7 +58,7 @@ RUN apt-get update \
     /var/lib/apt/lists/*
 
 # pg_trgm is recommend but not required.
-RUN echo -e "CREATE EXTENSION IF NOT EXISTS pg_trgm;\n\
+RUN echo "CREATE EXTENSION IF NOT EXISTS pg_trgm;\n\
 CREATE EXTENSION IF NOT EXISTS zhparser;\n\
 DO\n\
 \$\$BEGIN\n\
