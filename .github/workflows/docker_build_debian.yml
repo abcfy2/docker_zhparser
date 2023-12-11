@@ -57,7 +57,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Determine supported platforms
         run: |
-          PLATFORMS="$(docker buildx imagetools inspect postgres:${PG_TAG} --raw | jq -r '[.manifests[].platform | {os,architecture,variant} | del(.[] | nulls) | join("/")] | join(",")')"
+          PLATFORMS="$(docker buildx imagetools inspect postgres:${PG_TAG} --raw | jq -r '[.manifests[].platform | {os,architecture,variant} | del(.[] | nulls, select( . == "unknown")) | select(length > 0) | join("/")] | join(",")')"
           echo "postgres:${PG_TAG} support platforms: ${PLATFORMS}"
           echo "PLATFORMS=${PLATFORMS}" >> $GITHUB_ENV
         env:
