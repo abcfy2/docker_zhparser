@@ -9,6 +9,7 @@ on:
       - ".github/workflows/docker_build_debian.yml"
   schedule:
     - cron: "0 0 * * 6"
+  workflow_dispatch:
 
 env:
   DOCKER_REPOSITORY: abcfy2/zhparser

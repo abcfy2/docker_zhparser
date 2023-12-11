@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - README.md
+  workflow_dispatch:
 
 env:
   DOCKER_REPOSITORY: abcfy2/zhparser
