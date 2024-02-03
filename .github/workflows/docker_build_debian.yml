@@ -22,8 +22,6 @@ jobs:
       matrix:
         pg_tag:
           - latest
-          - 11-bullseye
-          - 11-bookworm
           - 12
           - 13
           - 14

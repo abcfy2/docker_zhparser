@@ -22,7 +22,6 @@ jobs:
       matrix:
         pg_tag:
           - alpine
-          - 11-alpine
           - 12-alpine
           - 13-alpine
           - 14-alpine
