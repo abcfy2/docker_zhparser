@@ -33,6 +33,7 @@ jobs:
           - 14-alpine
           - 15-alpine
           - 16-alpine
+          - 17-alpine
     steps:
       - name: Determine if push is needed
         run: |
