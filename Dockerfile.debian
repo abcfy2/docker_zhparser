@@ -13,7 +13,7 @@ RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
           sed -i 's/deb.debian.org/mirror.sjtu.edu.cn/;s/security.debian.org/mirror.sjtu.edu.cn/' "${f}"; \
         fi \
       done \
-    && sed -i 's@apt.postgresql.org/pub@repo.huaweicloud.com/postgresql@' /etc/apt/sources.list.d/pgdg.list; \
+    && sed -i 's@apt.postgresql.org/pub@mirrors.cloud.tencent.com/postgresql@' /etc/apt/sources.list.d/pgdg.list; \
     fi
 
 RUN apt-get update \

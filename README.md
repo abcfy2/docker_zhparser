@@ -7,6 +7,8 @@ A source repo of Postgres Chinese full-test search docker image, based on zhpars
 
 Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new version.
 
+This image also avaliable on GHCR: [abcfy2/zhparser](https://github.com/abcfy2/docker_zhparser/pkgs/container/zhparser)
+
 # Supported tags and respective Dockerfile links
 
 - [latest](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
