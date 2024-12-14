@@ -18,19 +18,19 @@ RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-      gcc \
-      make \
-      libc6-dev \
-      curl \
-      bzip2 \
       apt-transport-https \
+      bzip2 \
       ca-certificates \
+      curl \
+      gcc \
+      libc6-dev \
+      make \
   &&  if grep -q "deb-src" /etc/apt/sources.list.d/pgdg.list > /dev/null; then \
         echo "deb [trusted=yes] https://apt.fury.io/abcfy2/ /" >/etc/apt/sources.list.d/fury.list; \
         apt-get update; \
       fi \
   && LIBPQ5_VER="$(dpkg-query --showformat='${Version}' --show libpq5)" \
-  && apt-get install -y libpq-dev=$LIBPQ5_VER postgresql-server-dev-$PG_MAJOR=$PG_VERSION \
+  && apt-get install -y libpq-dev="${LIBPQ5_VER}" "postgresql-server-dev-${PG_MAJOR}=${PG_VERSION}" \
   && curl -sSkLf "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
   && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
   &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
@@ -49,9 +49,10 @@ RUN apt-get update \
         bzip2 \
         apt-transport-https \
         ca-certificates \
-        libpq-dev=$LIBPQ5_VER \
-        postgresql-server-dev-$PG_MAJOR=$PG_VERSION \
+        libpq-dev="${LIBPQ5_VER}" \
+        "postgresql-server-dev-${PG_MAJOR}=${PG_VERSION}" \
   && apt-get autoremove --purge -y \
+  && apt-get clean \
   && rm -rf /zhparser-master \
     /scws-1.2.3 \
     /etc/apt/sources.list.d/fury.list \
