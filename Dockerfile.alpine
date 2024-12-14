@@ -18,11 +18,11 @@ RUN set -ex \
     && wget -O- "${ZHPARSER_URL}" | tar xzf - \
     \
     && apk add --no-cache --virtual .build-deps \
-        llvm15 \
+        clang \
         file \
-        clang15 \
         gcc \
         libc-dev \
+        llvm \
         make \
         pkgconf \
     && cd /scws-1.2.3 \
