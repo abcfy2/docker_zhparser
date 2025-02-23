@@ -17,14 +17,12 @@ This image also avaliable on GHCR: [abcfy2/zhparser](https://github.com/abcfy2/d
 - [15](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [14](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [13](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
-- [12](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.debian)
 - [alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [17-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [16-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [15-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [14-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 - [13-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
-- [12-alpine](https://github.com/abcfy2/docker_zhparser/blob/main/Dockerfile.alpine)
 
 The numbers above are postgres docker image versions.
 
