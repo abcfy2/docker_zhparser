@@ -6,6 +6,8 @@ ARG PG_TAG=latest
 FROM postgres:${PG_TAG}
 LABEL org.opencontainers.image.authors="Feng Yu<abcfy2@163.com>"
 
+COPY scws-1.2.3.tar.bz2 /scws-1.2.3.tar.bz2
+
 ARG USE_CHINA_MIRROR=0
 RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
       for f in /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources; do \
@@ -31,7 +33,7 @@ RUN apt-get update \
       fi \
   && LIBPQ5_VER="$(dpkg-query --showformat='${Version}' --show libpq5)" \
   && apt-get install -y libpq-dev="${LIBPQ5_VER}" "postgresql-server-dev-${PG_MAJOR}=${PG_VERSION}" \
-  && curl -sSkLf "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
+  && tar xjf /scws-1.2.3.tar.bz2 \
   && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
   &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
         ZHPARSER_URL="https://mirror.ghproxy.com/${ZHPARSER_URL}"; \

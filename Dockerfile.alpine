@@ -3,6 +3,8 @@ ARG PG_TAG=alpine
 FROM postgres:${PG_TAG}
 LABEL org.opencontainers.image.authors="Feng Yu<abcfy2@163.com>"
 
+COPY scws-1.2.3.tar.bz2 /scws-1.2.3.tar.bz2
+
 ARG USE_CHINA_MIRROR=0
 RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
         sed -i 's/dl-cdn.alpinelinux.org/mirrors.sjtug.sjtu.edu.cn/' /etc/apk/repositories; \
@@ -10,7 +12,7 @@ RUN if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
 
 RUN set -ex \
     \
-    && wget -qO- "http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2" | tar xjf - \
+    && tar xjf /scws-1.2.3.tar.bz2 \
     && ZHPARSER_URL="https://github.com/amutu/zhparser/archive/master.tar.gz" \
     &&  if [ x"${USE_CHINA_MIRROR}" = x1 ]; then \
             ZHPARSER_URL="https://mirror.ghproxy.com/${ZHPARSER_URL}"; \

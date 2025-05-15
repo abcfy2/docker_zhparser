@@ -12,8 +12,9 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPOSITORY: abcfy2/zhparser
+  DOCKER_REPOSITORY: ${{ github.repository_owner }}/zhparser
   GHCR_REPOSITORY: ghcr.io/${{ github.repository_owner }}/zhparser
+  QUAY_IO_REPOSITORY: quay.io/${{ github.repository_owner }}/zhparser
 
 jobs:
   docker:
@@ -64,6 +65,13 @@ jobs:
           registry: ${{ env.GHCR_REPOSITORY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to Quay.io
+        uses: docker/login-action@v3
+        if: env.PUSH == 'true'
+        with:
+          registry: ${{ env.QUAY_IO_REPOSITORY }}
+          username: ${{ secrets.QUAY_IO_USERNAME }}
+          password: ${{ secrets.QUAY_IO_PASSWORD }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         if: env.PUSH == 'true'
@@ -90,6 +98,6 @@ jobs:
           build-args: |
             PG_TAG=${{ matrix.pg_tag }}
           platforms: ${{ env.PLATFORMS }}
-          tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.GHCR_REPOSITORY }}:${{ matrix.pg_tag }}
+          tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.GHCR_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.QUAY_IO_REPOSITORY }}:${{ matrix.pg_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

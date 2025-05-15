@@ -12,8 +12,9 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_REPOSITORY: abcfy2/zhparser
+  DOCKER_REPOSITORY: ${{ github.repository_owner }}/zhparser
   GHCR_REPOSITORY: ghcr.io/${{ github.repository_owner }}/zhparser
+  QUAY_IO_REPOSITORY: quay.io/${{ github.repository_owner }}/zhparser
 
 jobs:
   docker:
@@ -90,6 +91,6 @@ jobs:
           build-args: |
             PG_TAG=${{ matrix.pg_tag }}
           platforms: ${{ env.PLATFORMS }}
-          tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.GHCR_REPOSITORY }}:${{ matrix.pg_tag }}
+          tags: ${{ env.DOCKER_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.GHCR_REPOSITORY }}:${{ matrix.pg_tag }},${{ env.QUAY_IO_REPOSITORY }}:${{ matrix.pg_tag }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

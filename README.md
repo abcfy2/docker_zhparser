@@ -3,11 +3,13 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/abcfy2/zhparser)](https://hub.docker.com/r/abcfy2/zhparser)
 [![Latest Tag](https://img.shields.io/docker/v/abcfy2/zhparser)](https://hub.docker.com/r/abcfy2/zhparser/tags)
 
+[Docker Hub](https://hub.docker.com/r/abcfy2/zhparser)
+| [GitHub Container Registry](https://github.com/abcfy2/docker_zhparser/pkgs/container/zhparser)
+| [Quay.io](https://quay.io/repository/abcfy2/zhparser)
+
 A source repo of Postgres Chinese full-test search docker image, based on zhparser.
 
 Fork from: <https://github.com/chen-xin/docker_zhparser>, and upgrade to new version.
-
-This image also avaliable on GHCR: [abcfy2/zhparser](https://github.com/abcfy2/docker_zhparser/pkgs/container/zhparser)
 
 # Supported tags and respective Dockerfile links
 
