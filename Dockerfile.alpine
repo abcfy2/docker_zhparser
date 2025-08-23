@@ -18,13 +18,13 @@ RUN set -ex \
             ZHPARSER_URL="https://mirror.ghproxy.com/${ZHPARSER_URL}"; \
         fi \
     && wget -O- "${ZHPARSER_URL}" | tar xzf - \
-    \
+    && CLANG_VER="$(pg_config --configure | grep -o "CLANG=[^']*" | awk -F'-|=' '{print $3}')" \
     && apk add --no-cache --virtual .build-deps \
-        clang \
+        clang${CLANG_VER} \
         file \
         gcc \
         libc-dev \
-        llvm \
+        llvm${CLANG_VER} \
         make \
         pkgconf \
     && cd /scws-1.2.3 \
