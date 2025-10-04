@@ -51,7 +51,7 @@ jobs:
           fi
           echo "PUSH = ${PUSH}"
           echo "PUSH=${PUSH}" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: env.PUSH == 'true'
       - name: Login to DockerHub
         uses: docker/login-action@v3
